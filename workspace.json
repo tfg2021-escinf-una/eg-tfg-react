@@ -1,0 +1,7 @@
+{
+  "version": 2,
+  "projects": {
+    "tfg-frontend": "apps/tfg-frontend",
+    "tfg-frontend-e2e": "apps/tfg-frontend-e2e"
+  }
+}

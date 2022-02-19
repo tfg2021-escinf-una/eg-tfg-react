@@ -1,0 +1,28 @@
+{
+  "root": "apps/tfg-frontend-e2e",
+  "sourceRoot": "apps/tfg-frontend-e2e/src",
+  "projectType": "application",
+  "targets": {
+    "e2e": {
+      "executor": "@nrwl/cypress:cypress",
+      "options": {
+        "cypressConfig": "apps/tfg-frontend-e2e/cypress.json",
+        "devServerTarget": "tfg-frontend:serve"
+      },
+      "configurations": {
+        "production": {
+          "devServerTarget": "tfg-frontend:serve:production"
+        }
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["apps/tfg-frontend-e2e/**/*.{js,ts}"]
+      }
+    }
+  },
+  "tags": [],
+  "implicitDependencies": ["tfg-frontend"]
+}
