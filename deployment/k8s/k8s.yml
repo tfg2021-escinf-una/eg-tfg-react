@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: eg-tfg-react
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: eg-tfg-react
+  template:
+    metadata:
+      labels:
+        app: eg-tfg-react
+    spec:
+      containers:
+      - image: inftfg2021/eg.tfg.react:$TAG
+        name: eg-tfg-react
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: eg-tfg-react
+  annotations:
+    dev.okteto.com/auto-ingress: "true"
+spec:
+  type: ClusterIP  
+  ports:
+  - name: "eg-tfg-react"
+    port: 4200
+  selector:
+    app: eg-tfg-react
