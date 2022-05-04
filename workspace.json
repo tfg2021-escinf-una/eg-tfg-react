@@ -1,6 +1,7 @@
 {
   "version": 2,
   "projects": {
+    "core": "libs/core",
     "tfg-frontend": "apps/tfg-frontend",
     "tfg-frontend-e2e": "apps/tfg-frontend-e2e"
   }
