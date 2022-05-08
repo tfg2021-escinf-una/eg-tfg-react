@@ -1,3 +1,3 @@
-export * from './lib/Containers';
-export * from './lib/Layout';
+export * from './lib/containers';
+export * from './lib/layout';
 

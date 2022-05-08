@@ -1,6 +1,5 @@
 import styled from 'styled-components';
-import NxWelcome from './nx-welcome';
-
+import { ApplicationRouter } from './routes';
 const StyledApp = styled.div`
   // Your style here
 `;
@@ -8,7 +7,7 @@ const StyledApp = styled.div`
 export function App() {
   return (
     <StyledApp>
-      <NxWelcome title="tfg-frontend" />
+      <ApplicationRouter />
     </StyledApp>
   );
 }

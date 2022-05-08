@@ -1,5 +1,5 @@
 export interface ITokenResponse {
-    jwtToken? : string;
-    refreshToken? : string;
-    expiresat? : Date
+  jwtToken? : string;
+  refreshToken? : string;
+  expiresat? : Date
 }
