@@ -6,6 +6,12 @@
     "build": {
       "executor": "@nrwl/web:webpack",
       "outputs": ["{options.outputPath}"],
+      "dependsOn": [
+        {
+          "target": "build",
+          "projects": "dependencies"
+        }
+      ],
       "defaultConfiguration": "production",
       "options": {
         "compiler": "babel",
