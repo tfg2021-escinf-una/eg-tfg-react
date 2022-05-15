@@ -4,7 +4,7 @@
   "license": "MIT",
   "scripts": {
     "start": "nx serve tfg-frontend",
-    "build": "nx build tfg-frontend",
+    "build": "nx run-many --target=build --all",
     "test": "nx test tfg-frontend",
     "lint": "eslint . --report-unused-disable-directives"
   },
@@ -30,6 +30,7 @@
     "@nrwl/eslint-plugin-nx": "13.8.3",
     "@nrwl/jest": "13.8.3",
     "@nrwl/linter": "13.8.3",
+    "@nrwl/node": "^14.1.5",
     "@nrwl/react": "13.8.3",
     "@nrwl/tao": "13.8.3",
     "@nrwl/web": "13.8.3",
