@@ -1,4 +1,4 @@
-import NxWelcome from '../nx-welcome';
+import { Home } from "../pages"
 
 /**
  * Here we are going to define all the routes of the application.
@@ -9,7 +9,7 @@ import NxWelcome from '../nx-welcome';
 export const routeConfig = [
   {
     path: '/',
-    element : <NxWelcome title='TFG' />,
+    element : <Home />,
     exact: true
   },
   {

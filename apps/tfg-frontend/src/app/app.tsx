@@ -1,14 +1,25 @@
-import styled from 'styled-components';
+import React from 'react'
 import { ApplicationRouter } from './routes';
-const StyledApp = styled.div`
-  // Your style here
-`;
+import { TfgThemeProvider } from '@eg-tfg/core';
+import { createGlobalStyle } from 'styled-components';
+
+
+const GlobalStyles = createGlobalStyle`
+  body {
+    margin: 0px;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+`
 
 export function App() {
   return (
-    <StyledApp>
-      <ApplicationRouter />
-    </StyledApp>
+    <React.StrictMode>
+      <TfgThemeProvider mode={'dark'} >
+        <GlobalStyles />
+        <ApplicationRouter />
+      </TfgThemeProvider>
+    </React.StrictMode>
   );
 }
 

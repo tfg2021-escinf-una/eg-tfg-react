@@ -1,3 +1,3 @@
 export * from './lib/containers';
-export * from './lib/layout';
+export * from './lib/theme';
 

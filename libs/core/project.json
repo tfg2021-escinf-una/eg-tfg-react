@@ -4,14 +4,17 @@
   "projectType": "library",
   "targets": {
     "build": {
-      "executor": "@nrwl/js:tsc",
+      "executor": "@nrwl/node:webpack",
       "outputs": ["{options.outputPath}"],
       "options": {
         "outputPath": "dist/libs/core",
         "main": "libs/core/src/index.ts",
         "tsConfig": "libs/core/tsconfig.lib.json",
         "assets": ["libs/core/*.md"]
-      }
+      },
+      "webpackConfig": [
+        "webpack.alias.js"
+      ]
     },
     "lint": {
       "executor": "@nrwl/linter:eslint",

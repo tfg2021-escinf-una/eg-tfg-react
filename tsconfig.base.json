@@ -15,7 +15,8 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@eg-tfg/core": ["libs/core/src/index.ts"]
+      "@eg-tfg/core": ["libs/core/src/index.ts"],
+      "@mui/styled-engine": ["./node_modules/@mui/styled-engine-sc"]
     }
   },
   "exclude": ["node_modules", "tmp"]
