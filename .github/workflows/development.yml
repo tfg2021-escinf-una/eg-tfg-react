@@ -3,7 +3,7 @@ name: Build and Deploy in DEV Namespace
 on: 
  push:
   branches:
-    - bugfix/adding-nx-missing-references
+    - development
 
 jobs:
   build:
