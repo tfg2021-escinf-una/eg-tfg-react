@@ -1,6 +1,6 @@
 import { AppBar } from "@eg-tfg/core"
 import { useSelector } from "react-redux";
-import { IIdentityState } from "apps/tfg-frontend/src/redux/reducers/session/sessionReducer";
+import { IIdentityState } from "apps/tfg-frontend/src/redux/reducers/session/SessionReducer";
 import { StyledHeader,
          StyledContent,
          StyledFooter,

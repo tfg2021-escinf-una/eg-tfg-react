@@ -1,4 +1,4 @@
-import { IIdentityState } from "apps/tfg-frontend/src/redux/reducers/session/sessionReducer";
+import { IIdentityState } from "apps/tfg-frontend/src/redux/reducers/session/SessionReducer";
 import { useDispatch, useSelector } from "react-redux";
 import { Navigate } from 'react-router-dom'
 import { fetchUser, retrieveIdentity } from "apps/tfg-frontend/src/redux/actions/session/session";
