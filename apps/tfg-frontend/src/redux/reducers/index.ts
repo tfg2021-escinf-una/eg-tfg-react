@@ -1,5 +1,5 @@
 import { combineReducers } from 'redux';
-import { sessionReducer as SReducer } from './session/sessionReducer';
+import { SessionReducer as SReducer } from './session/SessionReducer';
 
 /**
  *  Here we will combine all the possible reducers that redux state is going

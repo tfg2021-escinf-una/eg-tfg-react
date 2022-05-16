@@ -29,7 +29,7 @@ const initialState : IIdentityState = {
   } as IUserIdentity
 };
 
-export const sessionReducer = (state : IIdentityState = initialState, action: any) => {
+export const SessionReducer = (state : IIdentityState = initialState, action: any) => {
   switch(action.type){
     case LOGIN_SUCCESS:
       return {...state,
