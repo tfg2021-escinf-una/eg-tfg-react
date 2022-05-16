@@ -12,12 +12,18 @@
         "outputPath": "dist/libs/core",
         "main": "libs/core/src/index.ts",
         "tsConfig": "libs/core/tsconfig.lib.json",
+        "external": [
+          "react",
+          "react-dom",
+          "react-jsx-runtime",
+          "styled-components"
+        ],
         "assets": [{
           "glob": "README.md",
           "input": ".",
           "output": "."
-
-        }]
+        }],
+        "buildableProjectDepsInPackageJsonType": "dependencies"
       },
       "webpackConfig": [
         "webpack.alias.js"
