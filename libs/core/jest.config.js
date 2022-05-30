@@ -2,13 +2,13 @@ module.exports = {
   displayName: 'core',
   preset: '../../jest.preset.js',
   globals: {
-    'ts-jest': {
+    'babel-jest': {
       tsconfig: '<rootDir>/tsconfig.spec.json',
     },
   },
   transform: {
-    '^.+\\.[tj]s$': 'ts-jest',
+    '^.+\\.[tj]sx?$': 'babel-jest',
   },
-  moduleFileExtensions: ['ts', 'js', 'html'],
+  moduleFileExtensions: ['ts','tsx', 'js', 'jsx', 'html'],
   coverageDirectory: '../../coverage/libs/core',
 };
