@@ -1,4 +1,4 @@
-import { Home } from "../pages"
+import { CovidNews, Home } from "../pages"
 
 /**
  * Here we are going to define all the routes of the application.
@@ -10,6 +10,11 @@ export const routeConfig = [
   {
     path: '/',
     element : <Home />,
+    exact: true
+  },
+  {
+    path: '/CovidNews',
+    element : <CovidNews />,
     exact: true
   },
   {
