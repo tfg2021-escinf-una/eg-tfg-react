@@ -1,10 +1,7 @@
 import { AppBar } from "@eg-tfg/core"
 import { useSelector } from "react-redux";
-import { IIdentityState } from "apps/tfg-frontend/src/redux/reducers/session/SessionReducer";
-import { StyledHeader,
-         StyledContent,
-         StyledFooter,
-         StyledFooterContent} from "./withBaseWrapper.styles"
+import { IIdentityState } from "apps/tfg-frontend/src/redux/reducers/sessionReducer/sReducer";
+import { StyledHeader, StyledContent, StyledFooter, StyledFooterContent} from "./withBaseWrapper.styles"
 import { Typography } from "@mui/material";
 
 export const withBaseWrapper =

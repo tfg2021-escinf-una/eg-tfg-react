@@ -1,4 +1,4 @@
-import { IIdentityState } from "apps/tfg-frontend/src/redux/reducers/session/SessionReducer";
+import { IIdentityState } from "apps/tfg-frontend/src/redux/reducers/sessionReducer";
 import { useDispatch, useSelector } from "react-redux";
 import { Navigate } from 'react-router-dom'
 import { fetchUser, retrieveIdentity } from "apps/tfg-frontend/src/redux/actions/session/session";
@@ -29,7 +29,7 @@ export const WithAuthentication =
      */
 
     checkIdentity();
-    const session : IIdentityState = useSelector((state : any)  => state.sessionReducer);
+    let session = useSelector((state : any)  => state.sessionReducer);
 
     /**
      * Checking the auth session state, if it is still alive, the page will load the
