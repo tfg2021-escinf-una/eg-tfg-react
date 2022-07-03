@@ -67,7 +67,7 @@ export const createCustomTheme = (mode : PaletteMode) => createTheme({
     ),
   },
   typography: {
-    htmlFontSize: 20,
+    htmlFontSize: 18,
     fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
   },
 });

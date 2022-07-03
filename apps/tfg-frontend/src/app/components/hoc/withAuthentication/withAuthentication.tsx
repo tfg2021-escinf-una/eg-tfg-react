@@ -1,46 +1,39 @@
-import { IIdentityState } from "apps/tfg-frontend/src/redux/reducers/sessionReducer";
-import { useDispatch, useSelector } from "react-redux";
+import { RootState, refresh, AppDispatch, retrieveIdentity, refreshTrigger } from "../../../../redux";
+import { ISessionState } from "../../../../redux/reducers";
+import { useSelector, useDispatch } from "react-redux";
 import { Navigate } from 'react-router-dom'
-import { fetchUser, retrieveIdentity } from "apps/tfg-frontend/src/redux/actions/session/session";
-import { Dispatch } from "react";
+import { useEffect } from "react";
 
-const checkIdentity = () => {
-  const dispatch : Dispatch<any> = useDispatch();
-  dispatch(retrieveIdentity())
-}
-
-const checkAuthentication = (session : IIdentityState) : boolean => {
-  const { tokens } = session.identity;
-  if(session.isAuthenticated && tokens !== undefined ){
-    if(tokens?.expiresat?.getTime()! < Date.now()){
-      return true;
-    }
-  }
-  return false;
-}
-
-export const WithAuthentication =
+export const withAuthentication =
   (WrappedComponent : any) =>
   (props: any) => {
+    const sessionState : ISessionState = useSelector((state : RootState)  => state.sessionReducer);
+    const dispatch : AppDispatch = useDispatch();
+    const checkAuthentication = (session : ISessionState) => {
+      const { tokens } = session.identity;
+      if(session.isAuthenticated && tokens !== undefined ){
+        const expireDate = new Date(tokens?.expiresat!)
+        if(expireDate.getTime() > Date.now())
+          return true
+      }
+      return false
+    }
 
-    /**
-     * Loading the react-redux state in order to check the authenticity of the
-     * tokens.
-     */
+    useEffect(() => {
+      dispatch(retrieveIdentity())
+      if(!checkAuthentication(sessionState)){
+        const { refreshTriggered, identity } = sessionState;
+        if(!refreshTriggered && identity.tokens?.jwtToken && identity.tokens?.refreshToken) {
+          dispatch(refreshTrigger(true))
+          dispatch(refresh({ jwtToken: identity.tokens.jwtToken, refreshToken: identity.tokens.refreshToken }))
+        }
+      }
+    }, [])
 
-    checkIdentity();
-    let session = useSelector((state : any)  => state.sessionReducer);
-
-    /**
-     * Checking the auth session state, if it is still alive, the page will load the
-     * wrapped component that is passed by parameter, otherwise, it will navigate to the
-     * main non auth page.
-     */
-
-    if(checkAuthentication(session)){
+    if(checkAuthentication(sessionState)){
       return (
         <WrappedComponent {...props} />
       );
     }
-    return <Navigate to="/"/>
+    return <Navigate to="/login"/>
   }

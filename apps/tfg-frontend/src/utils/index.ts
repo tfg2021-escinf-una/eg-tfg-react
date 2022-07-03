@@ -1,1 +1,2 @@
-export * from './crypto';
+export * from './cryptoString';
+export * from './doApiCall';

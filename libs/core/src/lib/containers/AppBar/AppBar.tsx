@@ -1,8 +1,4 @@
-import { Toolbar,
-         IconButton,
-         Typography,
-         MenuItem,
-         Menu } from "@mui/material";
+import { Toolbar, IconButton, Typography, MenuItem, Menu, Button } from "@mui/material";
 import { useState } from 'react';
 import { AccountCircle } from '@mui/icons-material';
 import { StyledAppBar } from './AppBar.styles';
@@ -10,12 +6,17 @@ import { StyledAppBar } from './AppBar.styles';
 export interface AppBarProps {
   isAuthenticated : boolean,
   title : string,
-  handleClose? : () => void,
-};
+  handleOnClickLogin? : () => void,
+  handleProfileClick? : () => void,
+  handleSignOut? : () => void,
+}
 
 export const AppBar = ({
   isAuthenticated = false,
-  title = ""
+  title = "",
+  handleSignOut,
+  handleOnClickLogin,
+  handleProfileClick
 } : AppBarProps) => {
 
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -34,9 +35,10 @@ export const AppBar = ({
         <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
           { title }
         </Typography>
+        <div>
         {
           isAuthenticated && (
-            <div>
+            <>
               <IconButton
                 size="large"
                 aria-label="account of current user"
@@ -62,12 +64,20 @@ export const AppBar = ({
                 open={Boolean(anchorEl)}
                 onClose={handleClose}
               >
-                <MenuItem onClick={handleClose}>Profile</MenuItem>
-                <MenuItem onClick={handleClose}>My account</MenuItem>
-                <MenuItem onClick={handleClose}>Sign out</MenuItem>
+                <MenuItem onClick={handleProfileClick}>Profile</MenuItem>
+                <MenuItem onClick={handleSignOut}>Sign out</MenuItem>
               </Menu>
-            </div>
-        )}
+            </>)
+        }
+        {!(isAuthenticated) && (
+          <>
+            <Button color="inherit"
+                    variant="outlined"
+                    size="medium"
+                    onClick={() =>handleOnClickLogin?.()}>Login</Button>
+          </>)
+        }
+        </div>
       </Toolbar>
     </StyledAppBar>
   );

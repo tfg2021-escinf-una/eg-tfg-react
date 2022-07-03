@@ -1,21 +1,28 @@
 import { AppBar } from "@eg-tfg/core"
-import { useSelector } from "react-redux";
-import { IIdentityState } from "apps/tfg-frontend/src/redux/reducers/sessionReducer/sReducer";
+import { useDispatch, useSelector } from "react-redux";
+import { ISessionState } from "apps/tfg-frontend/src/redux/reducers";
 import { StyledHeader, StyledContent, StyledFooter, StyledFooterContent} from "./withBaseWrapper.styles"
 import { Typography } from "@mui/material";
+import { logout } from '../../../../redux/actions';
+import { useNavigate } from "react-router-dom";
+import { RootState, AppDispatch } from "apps/tfg-frontend/src/redux";
 
 export const withBaseWrapper =
   (WrappedComponent: any) =>
   (props: any) => {
 
-  const session : IIdentityState = useSelector((state : any)  => state.sessionReducer);
+  const session : ISessionState = useSelector((state : RootState)  => state.sessionReducer);
+  const dispatch : AppDispatch = useDispatch();
+  const navigate = useNavigate();
   const dt = new Date();
 
   return(
     <>
       <StyledHeader>
         <AppBar isAuthenticated={session.isAuthenticated}
-                title={"TFG - Universidad Nacional"} />
+                title={"TFG - Universidad Nacional"}
+                handleOnClickLogin={() => navigate('/login')}
+                handleSignOut={() => { dispatch(logout()) }} />
       </StyledHeader>
       <StyledContent>
         <WrappedComponent {...props} />

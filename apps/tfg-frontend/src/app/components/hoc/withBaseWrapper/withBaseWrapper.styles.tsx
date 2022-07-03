@@ -9,8 +9,7 @@ export const StyledContent = styled.div`
   display: flex;
   background-color: ${({ theme }) => theme.palette['background'].default};
   height: 100vh;
-  padding-top: 64px;
-  padding: 0px 319px 0px 319px;
+  padding: 64px 319px 0px 319px;
   justify-content: space-between;
 `
 export const StyledFooter = styled.footer`

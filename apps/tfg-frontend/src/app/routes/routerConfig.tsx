@@ -1,4 +1,4 @@
-import { Home } from "../pages"
+import { HomePage, Login } from "../pages"
 
 /**
  * Here we are going to define all the routes of the application.
@@ -9,7 +9,12 @@ import { Home } from "../pages"
 export const routeConfig = [
   {
     path: '/',
-    element : <Home />,
+    element : <HomePage />,
+    exact: true
+  },
+  {
+    path: '/login',
+    element : <Login />,
     exact: true
   },
   {

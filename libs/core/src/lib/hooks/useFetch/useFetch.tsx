@@ -1,5 +1,8 @@
+import { useSelector } from 'react-redux';
+
 export interface IFetchConfig {
   method: 'POST' | 'GET' | 'PUT' | "DELETE",
+  authenticate? : boolean
   baseUrl : string,
   endpoint : string,
   options?: RequestInit
@@ -14,8 +17,8 @@ export interface IFetchResponse<T> {
 
 const safeUrls = (url: string) => {
   let newUrl : string = url;
-  let regFinExpr: RegExp = new RegExp("[/!@#\\$%\\^\\&*\\)\\(+=._-]$")
-  let regStartExpr: RegExp = new RegExp("^[/]");
+  let regFinExpr = /[/!@#\\$%\\^\\&*\\)\\(+=._-]$/
+  let regStartExpr = /^[/]/;
 
   // Sanitizing the urls
 
@@ -25,17 +28,18 @@ const safeUrls = (url: string) => {
   return newUrl;
 }
 
-
 export const useFetch = async <T extends Object> ({
   baseUrl,
+  authenticate = false,
   endpoint,
   method,
   options = {
     method: method,
-    headers: {}
+    headers: {
+      "Content-Type": "application/json"
+    }
   }
 } : IFetchConfig) : Promise<any> => {
-
   let sanitizedBaseUrl = safeUrls(baseUrl);
   let sanitizedEndpoint = safeUrls(endpoint);
   let objReturn : IFetchResponse<T> = {
@@ -44,6 +48,13 @@ export const useFetch = async <T extends Object> ({
   }
 
   try {
+    if(authenticate){
+      const { identity } = useSelector((state : any) => state.sessionReducer);
+      options.headers = {
+        "Content-Type" : "application/json",
+        "Authorization" : `Bearer ${identity?.tokens?.jwtToken}`
+      }
+    }
 
     let fetchData = await fetch(`${sanitizedBaseUrl}/${sanitizedEndpoint}`, {
       ...options
