@@ -47,12 +47,14 @@ const failure = (flag: boolean = true) => ({
     payload: flag
   })
 
-const notAuthenticated = () => ({ type: NOT_AUTHENTICATED })
-
-const refreshTokens = (tokens  : IRefreshTokenRequest) => ({
+const setTokens = (tokens  : IRefreshTokenRequest) => ({
   type: LOGIN_REFRESH_JWTTOKEN,
   payload: tokens
 })
+
+const notAuthenticated = () => ({ type: NOT_AUTHENTICATED })
+const triggerRefresh = (flag: boolean = true) => ({ type: REFRESH_TRIGGERED, payload: flag })
+const expiredSession = () => ({ type: SESSION_EXPIRED })
 
 /**
  * The following function is the thunk that will be called from a component in other to
@@ -111,7 +113,7 @@ export const refresh = ({ ...identityTokens } : IRefreshTokenRequest) => {
       const uIdentity = identityBuilder({ ...responseMap.get('tokens') })
       const uIdentityEncrypted = objEncryptionDecryption(true, uIdentity);
       saveObjectInLocalStorage('identity', uIdentityEncrypted);
-      dispatch(refreshTokens({ ...responseMap.get('tokens') }))
+      dispatch(setTokens({ ...responseMap.get('tokens') }))
       dispatch(refreshTrigger(false))
     } else {
       purgeObjectFromLocalStorage('identity')
@@ -122,15 +124,13 @@ export const refresh = ({ ...identityTokens } : IRefreshTokenRequest) => {
 
 export const refreshTrigger = (flag : boolean) => {
   return (dispatch: AppDispatch) => {
-    dispatch({ type: REFRESH_TRIGGERED, payload: flag })
+    dispatch(triggerRefresh())
   }
 }
 
 export const sessionExpired = () => {
   return (dispatch : AppDispatch) => {
     purgeObjectFromLocalStorage('identity');
-    dispatch({
-      type: SESSION_EXPIRED
-    })
+    dispatch(expiredSession())
   }
 }
