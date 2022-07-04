@@ -3,9 +3,31 @@ import { useDispatch, useSelector } from "react-redux";
 import { ISessionState } from "apps/tfg-frontend/src/redux/reducers";
 import { StyledHeader, StyledContent, StyledFooter, StyledFooterContent} from "./withBaseWrapper.styles"
 import { Typography } from "@mui/material";
-import { logout } from '../../../../redux/actions';
+import { logout, retrieveIdentity } from '../../../../redux/actions';
 import { useNavigate } from "react-router-dom";
 import { RootState, AppDispatch } from "apps/tfg-frontend/src/redux";
+import { ReactNode, useEffect } from "react";
+
+interface IIdentityHandler {
+  sessionState : ISessionState,
+  dispatch : AppDispatch
+  children: ReactNode,
+}
+
+const IdentityHandler = ({
+  sessionState,
+  dispatch,
+  children
+} : IIdentityHandler) => {
+
+  useEffect(() => {
+    dispatch(retrieveIdentity())
+  }, [])
+
+  return(
+    <>{children}</>
+  )
+}
 
 export const withBaseWrapper =
   (WrappedComponent: any) =>
@@ -25,7 +47,10 @@ export const withBaseWrapper =
                 handleSignOut={() => { dispatch(logout()) }} />
       </StyledHeader>
       <StyledContent>
-        <WrappedComponent {...props} />
+        <IdentityHandler sessionState={session}
+                         dispatch={dispatch}>
+          <WrappedComponent {...props} />
+        </IdentityHandler>
       </StyledContent>
       <StyledFooter>
         <StyledFooterContent>

@@ -2,7 +2,7 @@ import { RootState, refresh, AppDispatch, retrieveIdentity, refreshTrigger } fro
 import { ISessionState } from "../../../../redux/reducers";
 import { useSelector, useDispatch } from "react-redux";
 import { Navigate } from 'react-router-dom'
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 
 export const withAuthentication =
   (WrappedComponent : any) =>
@@ -20,17 +20,23 @@ export const withAuthentication =
     }
 
     useEffect(() => {
-      dispatch(retrieveIdentity())
+      const { refreshTriggered } = sessionState;
+      const { tokens } = sessionState.identity;
+
       if(!checkAuthentication(sessionState)){
-        const { refreshTriggered, identity } = sessionState;
-        if(!refreshTriggered && identity.tokens?.jwtToken && identity.tokens?.refreshToken) {
+        if(!refreshTriggered &&
+            tokens?.jwtToken !== undefined &&
+            tokens?.refreshToken !== undefined) {
           dispatch(refreshTrigger(true))
-          dispatch(refresh({ jwtToken: identity.tokens.jwtToken, refreshToken: identity.tokens.refreshToken }))
+          dispatch(refresh({
+            jwtToken: tokens?.jwtToken,
+            refreshToken: tokens?.refreshToken
+          }))
         }
       }
-    }, [])
+    }, [dispatch])
 
-    if(checkAuthentication(sessionState)){
+    if(checkAuthentication(sessionState) || sessionState.refreshTriggered){
       return (
         <WrappedComponent {...props} />
       );
