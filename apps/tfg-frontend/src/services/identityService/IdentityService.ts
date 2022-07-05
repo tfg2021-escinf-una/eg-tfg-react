@@ -7,7 +7,7 @@ const login = async ({ ...credentials } : ICredentialRequest) : Promise<any> => 
   const { response, errors, statusCode } = await useFetch<ITokenResponse>({
     method: 'POST',
     baseUrl: identityServiceUrl,
-    endpoint: '/user/login',
+    endpoint: '/identity/login',
     options: {
       method: 'POST',
       headers: { "Content-Type" : "application/json" },
@@ -26,7 +26,7 @@ const refresh = async ({ ...tokens } : IRefreshTokenRequest) => {
   const { response, errors, statusCode } = await useFetch<IRefreshTokenRequest>({
     method: 'POST',
     baseUrl: identityServiceUrl,
-    endpoint: '/user/refresh',
+    endpoint: '/identity/refresh',
     options: {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -48,7 +48,7 @@ const register = async ({ ...user} : IRegisterUser) : Promise<any> => {
   const { response, errors, statusCode } = await useFetch<IRegisterUser>({
     method: 'POST',
     baseUrl: identityServiceUrl,
-    endpoint: '/user/register',
+    endpoint: '/identity/register',
     options: {
       body : JSON.stringify({ ...user })
     }
@@ -61,8 +61,23 @@ const register = async ({ ...user} : IRegisterUser) : Promise<any> => {
   ])
 }
 
+const getRoles = async() => {
+  const { response, errors, statusCode } = await useFetch({
+    method: 'GET',
+    baseUrl: identityServiceUrl,
+    endpoint: '/identity/role',
+  })
+
+  return new Map([
+    [ "statusCode", statusCode ],
+    [ "roles", response ],
+    [ "errors", errors ]
+  ])
+}
+
 export const identityService = {
   login,
   refresh,
-  register
+  register,
+  getRoles
 }

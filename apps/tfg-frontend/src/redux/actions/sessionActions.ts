@@ -47,9 +47,9 @@ const failure = (flag: boolean = true) => ({
     payload: flag
   })
 
-const setTokens = (tokens  : IRefreshTokenRequest) => ({
+const setRefreshedIdentity = (identity  : IUserIdentity) => ({
   type: LOGIN_REFRESH_JWTTOKEN,
-  payload: tokens
+  payload: identity
 })
 
 const notAuthenticated = () => ({ type: NOT_AUTHENTICATED })
@@ -113,7 +113,7 @@ export const refresh = ({ ...identityTokens } : IRefreshTokenRequest) => {
       const uIdentity = identityBuilder({ ...responseMap.get('tokens') })
       const uIdentityEncrypted = objEncryptionDecryption(true, uIdentity);
       saveObjectInLocalStorage('identity', uIdentityEncrypted);
-      dispatch(setTokens({ ...responseMap.get('tokens') }))
+      dispatch(setRefreshedIdentity({ ...uIdentity }))
       dispatch(refreshTrigger(false))
     } else {
       purgeObjectFromLocalStorage('identity')

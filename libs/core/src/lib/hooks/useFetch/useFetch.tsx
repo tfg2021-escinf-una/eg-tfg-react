@@ -1,8 +1,5 @@
-import { useSelector } from 'react-redux';
-
 export interface IFetchConfig {
   method: 'POST' | 'GET' | 'PUT' | "DELETE",
-  authenticate? : boolean
   baseUrl : string,
   endpoint : string,
   options?: RequestInit
@@ -30,7 +27,6 @@ const safeUrls = (url: string) => {
 
 export const useFetch = async <T extends Object> ({
   baseUrl,
-  authenticate = false,
   endpoint,
   method,
   options = {
@@ -48,14 +44,6 @@ export const useFetch = async <T extends Object> ({
   }
 
   try {
-    if(authenticate){
-      const { identity } = useSelector((state : any) => state.sessionReducer);
-      options.headers = {
-        "Content-Type" : "application/json",
-        "Authorization" : `Bearer ${identity?.tokens?.jwtToken}`
-      }
-    }
-
     let fetchData = await fetch(`${sanitizedBaseUrl}/${sanitizedEndpoint}`, {
       ...options
     })

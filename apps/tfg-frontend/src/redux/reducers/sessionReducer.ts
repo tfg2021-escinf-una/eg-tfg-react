@@ -59,10 +59,7 @@ export const sessionReducer = (state : ISessionState = initialState, action: any
       }
     case LOGIN_REFRESH_JWTTOKEN:
       return { ...state,
-        identity : {
-          user: state.identity.user,
-          identity: { ...action.payload }
-        }
+        identity : action.payload
       }
 
     case REFRESH_TRIGGERED:
