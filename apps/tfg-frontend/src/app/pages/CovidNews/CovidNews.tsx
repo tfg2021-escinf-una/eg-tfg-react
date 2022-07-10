@@ -2,10 +2,13 @@ import { Button } from '@mui/material'
 import type * as CSS from 'csstype'
 import {data} from './news_info'
 import Carousel from 'react-material-ui-carousel'
-
+import {useState, useEffect} from 'react'
+import axios from 'axios'
+import DataTable from './DataTable'
+import { vaccines } from './vaccines';
 
 const vaccinesInfoContainerStyle: CSS.Properties = {
-//backgroundColor: '#EB920E',
+  // backgroundColor: '#EB920E',
   width: '100%',
   height: '40%'
 }
@@ -44,12 +47,28 @@ const style2: CSS.Properties = {
 
 }
 export const CovidNews = () => {
+  const [newsData, setNewsData] = useState([{title : '', urlToImage: '', content: '' }])
+  const [vaccinesData, setVaccinesData] = useState([{trimedName : '', category: '', phase: '', developerResearcher: '', funder: '' }])
+  const headers = {
+    'Access-Control-Allow-Origin': '*',
+      'Content-Type': 'application/json',
+};
+  useEffect(()=>{
+    console.log('useEffect');
+    setNewsData(data.news);
+    setVaccinesData(vaccines)
+    // axios.get('https://covid-info-dev-tfg2021-escinf-una.cloud.okteto.net/news', {headers}).then( res =>
+    // setNewsData(res.news)).catch(err => console.log(err))
+    // axios.get('https://covid-info-dev-tfg2021-escinf-una.cloud.okteto.net/vaccines', {headers}).then( res =>
+    // setVaccinesData(res)).catch(err => console.log(err))
+  }, [])
+
   return (
     <div style={mainContainerStyle}>
       <div style={carouselContainerStyle}>
         <Carousel height={'500px'}>
           {
-            data.news.map((news, i) => <div key={i} style={carouselCardStyle}>
+            newsData.map((news, i) => <div key={i} style={carouselCardStyle}>
               <div style={style1}><img src={news.urlToImage} alt="" style={imageContainerStyle}></img></div>
               <div style={style2}>
                 <h2>{news.title}</h2>
@@ -63,7 +82,9 @@ export const CovidNews = () => {
           }
         </Carousel>
       </div>
-      <div style={vaccinesInfoContainerStyle}></div>
+      <div style={vaccinesInfoContainerStyle}>
+        <DataTable data={vaccinesData} />
+      </div>
     </div>
   )
 }
