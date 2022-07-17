@@ -1,4 +1,4 @@
-import { IUserIdentity } from '../../../interfaces';
+import { IUserIdentity } from '../../interfaces';
 import { LOGIN_SUCCESS,
          LOGIN_REQUEST,
          LOGIN_NOT_FOUND,
@@ -6,57 +6,68 @@ import { LOGIN_SUCCESS,
          LOGIN_FAILURE,
          LOGIN_FETCH_USER,
          NOT_AUTHENTICATED,
-} from "../../constants";
+         SESSION_EXPIRED,
+         LOGIN_REFRESH_JWTTOKEN,
+         REFRESH_TRIGGERED
+} from "../constants";
 
-export interface IIdentityState {
+export interface ISessionState {
   isAuthenticated : boolean,
   isNotFound : boolean,
   isRequestingLogin : boolean,
   isInvalidPassword : boolean,
+  refreshTriggered: boolean
   failure : boolean,
   identity: IUserIdentity,
 }
 
-const initialState : IIdentityState = {
+const initialState : ISessionState = {
   isAuthenticated: false,
   isNotFound: false,
   isRequestingLogin: false,
   isInvalidPassword: false,
   failure: false,
+  refreshTriggered: false,
   identity : {
     user : undefined,
     tokens: undefined
   } as IUserIdentity
 };
 
-export const SessionReducer = (state : IIdentityState = initialState, action: any) => {
+export const sessionReducer = (state : ISessionState = initialState, action: any) => {
   switch(action.type){
     case LOGIN_SUCCESS:
       return {...state,
         isAuthenticated: true,
         identity: action.payload
-      } as IIdentityState;
-
+      }
     case LOGIN_FAILURE:
       return { ...state,
         failure: action.payload
       }
-
     case LOGIN_NOT_FOUND:
       return { ...state,
         isNotFound: action.payload
       };
-
     case LOGIN_INVALID_PASSWORD:
       return {...state,
         isInvalidPassword: action.payload
       }
-
     case LOGIN_REQUEST:
       return {...state,
         isRequestingLogin: action.payload
       }
+    case LOGIN_REFRESH_JWTTOKEN:
+      return { ...state,
+        identity : action.payload
+      }
 
+    case REFRESH_TRIGGERED:
+      return { ...state,
+        refreshTriggered : action.payload
+      }
+
+    case SESSION_EXPIRED:
     case NOT_AUTHENTICATED:
       return initialState;
 

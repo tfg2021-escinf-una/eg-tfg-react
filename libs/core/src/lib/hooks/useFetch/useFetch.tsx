@@ -14,8 +14,8 @@ export interface IFetchResponse<T> {
 
 const safeUrls = (url: string) => {
   let newUrl : string = url;
-  let regFinExpr: RegExp = new RegExp("[/!@#\\$%\\^\\&*\\)\\(+=._-]$")
-  let regStartExpr: RegExp = new RegExp("^[/]");
+  let regFinExpr = /[/!@#\\$%\\^\\&*\\)\\(+=._-]$/
+  let regStartExpr = /^[/]/;
 
   // Sanitizing the urls
 
@@ -25,17 +25,17 @@ const safeUrls = (url: string) => {
   return newUrl;
 }
 
-
 export const useFetch = async <T extends Object> ({
   baseUrl,
   endpoint,
   method,
   options = {
     method: method,
-    headers: {}
+    headers: {
+      "Content-Type": "application/json"
+    }
   }
 } : IFetchConfig) : Promise<any> => {
-
   let sanitizedBaseUrl = safeUrls(baseUrl);
   let sanitizedEndpoint = safeUrls(endpoint);
   let objReturn : IFetchResponse<T> = {
@@ -44,7 +44,6 @@ export const useFetch = async <T extends Object> ({
   }
 
   try {
-
     let fetchData = await fetch(`${sanitizedBaseUrl}/${sanitizedEndpoint}`, {
       ...options
     })

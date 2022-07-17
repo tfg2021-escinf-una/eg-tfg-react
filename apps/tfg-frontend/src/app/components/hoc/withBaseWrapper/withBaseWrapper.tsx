@@ -1,27 +1,56 @@
 import { AppBar } from "@eg-tfg/core"
-import { useSelector } from "react-redux";
-import { IIdentityState } from "apps/tfg-frontend/src/redux/reducers/session/SessionReducer";
-import { StyledHeader,
-         StyledContent,
-         StyledFooter,
-         StyledFooterContent} from "./withBaseWrapper.styles"
+import { useDispatch, useSelector } from "react-redux";
+import { ISessionState } from "apps/tfg-frontend/src/redux/reducers";
+import { StyledHeader, StyledContent, StyledFooter, StyledFooterContent} from "./withBaseWrapper.styles"
 import { Typography } from "@mui/material";
+import { logout, retrieveIdentity } from '../../../../redux/actions';
+import { useNavigate } from "react-router-dom";
+import { RootState, AppDispatch } from "apps/tfg-frontend/src/redux";
+import { ReactNode, useEffect } from "react";
+
+interface IIdentityHandler {
+  sessionState : ISessionState,
+  dispatch : AppDispatch
+  children: ReactNode,
+}
+
+const IdentityHandler = ({
+  sessionState,
+  dispatch,
+  children
+} : IIdentityHandler) => {
+
+  useEffect(() => {
+    dispatch(retrieveIdentity())
+  }, [])
+
+  return(
+    <>{children}</>
+  )
+}
 
 export const withBaseWrapper =
   (WrappedComponent: any) =>
   (props: any) => {
 
-  const session : IIdentityState = useSelector((state : any)  => state.sessionReducer);
+  const session : ISessionState = useSelector((state : RootState)  => state.sessionReducer);
+  const dispatch : AppDispatch = useDispatch();
+  const navigate = useNavigate();
   const dt = new Date();
 
   return(
     <>
       <StyledHeader>
         <AppBar isAuthenticated={session.isAuthenticated}
-                title={"TFG - Universidad Nacional"} />
+                title={"TFG - Universidad Nacional"}
+                handleOnClickLogin={() => navigate('/login')}
+                handleSignOut={() => { dispatch(logout()) }} />
       </StyledHeader>
       <StyledContent>
-        <WrappedComponent {...props} />
+        <IdentityHandler sessionState={session}
+                         dispatch={dispatch}>
+          <WrappedComponent {...props} />
+        </IdentityHandler>
       </StyledContent>
       <StyledFooter>
         <StyledFooterContent>

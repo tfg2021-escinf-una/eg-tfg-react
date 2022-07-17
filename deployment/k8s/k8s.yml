@@ -15,6 +15,9 @@ spec:
       containers:
       - image: inftfg2021/eg.tfg.react:$TAG
         name: eg-tfg-react
+        env: 
+          - name: NX_IDENTITY_SERVICE_URL
+            value: $NX_IDENTITY_SERVICE_URL
 ---
 apiVersion: v1
 kind: Service
