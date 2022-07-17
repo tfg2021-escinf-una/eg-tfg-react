@@ -23,7 +23,7 @@ export default function DataTable(props: { data: any[]; }) {
       funder: vac.funder !== 'undefined' ? vac.funder : 'N/A'
   }))
   return (
-    <div style={{ height: 400, width: '100%' }}>
+    <div style={{ height: 300, width: '100%' }}>
       <DataGrid
         rows={rows}
         columns={columns}

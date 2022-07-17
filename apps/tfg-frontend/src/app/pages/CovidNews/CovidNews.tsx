@@ -1,22 +1,23 @@
 import { Button } from '@mui/material'
 import type * as CSS from 'csstype'
-import {data} from './news_info'
 import Carousel from 'react-material-ui-carousel'
 import {useState, useEffect} from 'react'
 import axios from 'axios'
 import DataTable from './DataTable'
-import { vaccines } from './vaccines';
 
 const vaccinesInfoContainerStyle: CSS.Properties = {
-  // backgroundColor: '#EB920E',
   width: '100%',
   height: '40%'
 }
 const carouselContainerStyle: CSS.Properties = {
   height: '60%',
   width: '100%',
- // backgroundColor: 'yellowgreen',
 }
+
+const vaccinesTitleStyle: CSS.Properties = {
+  color: 'white'
+}
+
 const carouselCardStyle: CSS.Properties = {
   backgroundColor: '#71828A',
   display: 'flex',
@@ -54,13 +55,10 @@ export const CovidNews = () => {
       'Content-Type': 'application/json',
 };
   useEffect(()=>{
-    console.log('useEffect');
-    setNewsData(data.news);
-    setVaccinesData(vaccines)
-    // axios.get('https://covid-info-dev-tfg2021-escinf-una.cloud.okteto.net/news', {headers}).then( res =>
-    // setNewsData(res.news)).catch(err => console.log(err))
-    // axios.get('https://covid-info-dev-tfg2021-escinf-una.cloud.okteto.net/vaccines', {headers}).then( res =>
-    // setVaccinesData(res)).catch(err => console.log(err))
+     axios.get('https://covid-info-dev-tfg2021-escinf-una.cloud.okteto.net/news', {headers}).then( (res: any) =>
+     setNewsData(res.data.news)).catch(err => console.log(err))
+     axios.get('https://covid-info-dev-tfg2021-escinf-una.cloud.okteto.net/vaccines', {headers}).then( (res: any) =>
+     setVaccinesData(res.data)).catch(err => console.log(err))
   }, [])
 
   return (
@@ -83,6 +81,7 @@ export const CovidNews = () => {
         </Carousel>
       </div>
       <div style={vaccinesInfoContainerStyle}>
+        <h1 style={vaccinesTitleStyle}>Vaccines Research Info</h1>
         <DataTable data={vaccinesData} />
       </div>
     </div>
