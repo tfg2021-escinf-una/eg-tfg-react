@@ -16,8 +16,12 @@ spec:
       - image: inftfg2021/eg.tfg.react:$TAG
         name: eg-tfg-react
         env: 
+          - name: NODE_ENV
+            value: $ENV
           - name: NX_IDENTITY_SERVICE_URL
             value: $NX_IDENTITY_SERVICE_URL
+          - name: NX_ENCRYPTION_KEY
+            value: $NX_ENCRYPTION_KEY
 ---
 apiVersion: v1
 kind: Service
