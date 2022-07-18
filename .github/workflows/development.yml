@@ -73,5 +73,5 @@ jobs:
           timeout: 8m
           skipIfExists: false
           filename: ./deployment/okteto-pipeline.yml
-          variables: "ENV=Development, TAG=${{ needs.build.outputs.version_tag }}"
+          variables: "ENV=development, TAG=${{ needs.build.outputs.version_tag }}"
     
