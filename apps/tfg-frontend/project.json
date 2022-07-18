@@ -44,7 +44,8 @@
           "extractLicenses": true,
           "vendorChunk": false
         }
-      }
+      },
+      "webpackConfig": "apps/tfg-frontend/webpack.config.js"
     },
     "serve": {
       "executor": "@nrwl/web:dev-server",

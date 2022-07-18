@@ -1,7 +1,7 @@
 import { useFetch } from "@eg-tfg/core";
 import { ICredentialRequest, ITokenResponse, IRefreshTokenRequest, IRegisterUser } from "../../interfaces";
 
-const identityServiceUrl = process.env['NX_IDENTITY_SERVICE_URL'] || "https://localhost:5000/";
+const identityServiceUrl = process.env["NX_IDENTITY_SERVICE_URL"] || "https://localhost:5000/";
 
 const login = async ({ ...credentials } : ICredentialRequest) : Promise<any> => {
   const { response, errors, statusCode } = await useFetch<ITokenResponse>({
